@@ -1,0 +1,998 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[top=12ex, bottom=12ex, left=9ex, right=9ex,showframe=false]{geometry}
+\linespread{1.8}
+\usepackage{fancyhdr}
+\usepackage{ctex}
+\pagestyle{fancy}
+\lhead{ \fancyplain{}{\href{http://www.latexstudio.net}{\LaTeX{}工作室}}}
+\rhead{ \fancyplain{}{\leftmark}}
+\cfoot{ \fancyplain{}{\thepage} }
+\usepackage[unicode]{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{pifont}
+\usepackage{fourier}
+\usepackage{wasysym}
+\usepackage{stmaryrd}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{extarrows}
+\usepackage{chemarrow}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows,positioning,calc,fadings,shapes,decorations.markings}
+\usepackage{array}
+\usepackage{anyfontsize}
+\usepackage{circuitikz}
+\usepackage{multirow}
+\usepackage{tasks}
+\usepackage[toc]{multitoc}
+\usepackage{indentfirst}
+\usepackage{paralist}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{easyphys}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{titletoc}
+\usepackage[explicit]{titlesec}
+\usepackage{makeidx}
+\usepackage{xfrac}
+
+\setCJKmainfont[BoldFont={FZHei-B01},ItalicFont={FZKai-Z03}]{FZShuSong-Z01}
+\setCJKsansfont{FZHei-B01}
+\setCJKfamilyfont{zhsong}{FZShuSong-Z01}
+\setCJKfamilyfont{zhhei}{FZHei-B01}
+\setCJKfamilyfont{zhkai}{FZKai-Z03}
+\setCJKfamilyfont{zhfs}{FZFangSong-Z02}
+\setCJKfamilyfont{zhli}{FZLiShu-S01}
+
+\renewcommand*{\songti}{\CJKfamily{zhsong}} % 宋体
+\renewcommand*{\heiti}{\CJKfamily{zhhei}} % 黑体
+\newcommand*{\kaiti}{\CJKfamily{zhkai}} % 楷体
+\renewcommand*{\fangsong}{\CJKfamily{zhfs}} % 仿宋
+\renewcommand*{\lishu}{\CJKfamily{zhli}}    % 隶书
+
+\newcommand{\example}[1]{%
+	\refstepcounter{example}
+	\noindent {\textcolor{cyan}{\textsf{\textbf{Example \theexample }}} \hspace*{1pt} #1 %
+	}}
+
+\newtcbtheorem{Question}{练习~（题}%
+  {enhanced, breakable,
+    colback = Bviolet!20!white, colframe = Shenlan, colbacktitle = Shenlan,
+    attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
+    boxed title style = {sharp corners},
+% underlay boxed title={
+% \filldraw [fill=red, draw=green] ($(frame.north west) + (.4mm,0mm)$) rectangle ++(24.00mm,-5.00mm);% the rectangle where the title fits.
+%\coordinate (A) at ($(frame.north west) + (24.00mm,-2mm)$);
+%\node at (A) {a};
+%},
+    fonttitle = \sffamily\bfseries, separator sign = {）.~}}{qst}
+
+
+% section title style
+\titleformat{name=\section}[block]
+{\begin{center}\begin{tikzpicture}}
+{%\draw[line width=4pt, Gray!70] (0,0) rectangle (12,3.2);
+\node at (6,2.4) {\begin{ascolorbox17}{\Huge\sc\bfseries\textcolor{white}{第 \thesection 章 \quad Chapter \thesection}}
+\vspace{1.2cm}
+\end{ascolorbox17}};}
+{0pt}
+{\node at (6,2) {\huge\filright\textcolor{purple}{#1}};}[\end{tikzpicture}\end{center}]
+
+% table of contents sytle
+\titlecontents{section}[9pc]
+{\addvspace{10pt}%
+	\begin{tikzpicture}[remember picture, overlay]%
+	\draw[fill=Gray!70,draw=Gray!70] (-4,-0.1) rectangle (-0.8,0.5);
+	\node at (-2.4,0.2){\color{white}\Large\sc\bfseries chapter\ \thecontentslabel};%
+	\end{tikzpicture}\color{Gray}\hspace*{-10pt}\large\bfseries}%
+{}
+{}
+{\;\titlerule\;\large\sc\bfseries Page \thecontentspage
+	\begin{tikzpicture}[remember picture, overlay]
+	\draw[fill=Gray!70,draw=Gray!70] (2pt,0) rectangle (6,0.1pt);
+	\end{tikzpicture}}%
+\titlecontents{subsection}[8.1pc]
+{\addvspace{1pt}}
+{\contentslabel[\thecontentslabel]{2.1pc}}{}
+{\hfill\small \thecontentspage}[]
+\titlecontents*{subsubsection}[8.1pc]
+{\addvspace{-1pt}\small}{}{}
+{\ - \small\thecontentspage}
+[ /\ ][]
+
+
+% font type
+\renewcommand*\rmdefault{ppl}
+
+\makeatletter
+% equation box
+\renewcommand{\boxed}[1]{\textcolor{black}{%
+\tikz[baseline={([yshift=-.72ex] current bounding box.center)}] \node [thick, rectangle, minimum width=1ex,rounded corners,fill=yellow!10, draw=orange] {\normalcolor\m@th$\displaystyle#1$};}}
+
+\renewcommand\normalsize{%
+	\@setfontsize\normalsize\@xpt\@xiipt
+	\abovedisplayskip 0\p@ plus 5\p@ minus 3\p@
+	\belowdisplayskip 0\p@ plus 5\p@ minus 3\p@
+	\abovedisplayshortskip 0\p@ plus 5\p@ minus 3\p@
+	\belowdisplayshortskip 0\p@ plus 5\p@ minus 3\p@
+	\let\@listi\@listI}
+\setlength{\@fptop}{0pt}
+
+% table of contents title
+\renewcommand{\tableofcontents}{%
+	\begin{tikzpicture}[remember picture, overlay]%
+	\pgftext[right,x=13.5cm,y=0.2cm]{\color{Gray}\Huge\sc\bfseries \contentsname};%
+	\draw[fill=Gray!70,draw=Gray!70] (11.42,-.75) rectangle (20,1);%
+	\clip (11.42,-.75) rectangle (20,1);
+	\pgftext[right,x=13.5cm,y=0.2cm]{\color{white}\Huge\sc\bfseries \contentsname};%
+	\end{tikzpicture}%
+	\vspace*{20\p@}%
+	\@starttoc{toc}}
+\makeatother
+
+
+
+% % % % % % % % % %
+
+\DeclareGraphicsExtensions{.eps,.mps,.pdf,.jpg,.png}
+\graphicspath{{figures/}}
+\renewcommand\thefootnote{\textcolor{blue}{[\arabic{footnote}]}}
+\hypersetup{
+    colorlinks, linkcolor={purple}, citecolor={blue}, urlcolor={blue},
+    pdftitle={Cambridge International A-Level Physics Course Notes},
+    pdfauthor={Yuhao Yang},
+    pdfsubject={A-Level Physics} }
+
+% tikz arrows
+\tikzset{>=stealth', pil/.style={ ->, thick, shorten <=2pt, shorten >=2pt,} }
+
+% tikz decription node style
+\tikzset{note/.style={rectangle, rounded corners, minimum size=6mm, draw=black, fill=white, align=center,execute at begin node=\setlength{\baselineskip}{1.2em}}}
+\tikzset{twoline/.style={align=center,execute at begin node=\setlength{\baselineskip}{1.2em}}}
+\tikzset{twolinecap/.style={align=center,execute at begin node=\setlength{\baselineskip}{1.6em}}}
+
+% % % % % % % % % % %
+
+% example + question + exercise environment
+\newcounter{example}[section]
+\newcounter{exercise}[section]
+\newcounter{question}[section]
+\renewcommand{\theexample}{\arabic{section}.\arabic{example}}
+\renewcommand{\theexercise}{\arabic{section}.\arabic{exercise}}
+\renewcommand{\thequestion}{\arabic{section}.\arabic{question}}
+
+% \newcommand{\example}[1]{%
+% 	\refstepcounter{example}
+% 	\noindent {\textcolor{cyan}{\textsf{\textbf{Example \theexample }}} \hspace*{1pt} #1 %
+% 	}}
+
+
+\newcommand{\question}[1]{%
+	\refstepcounter{question}
+	\noindent{\textcolor{magenta}{\textsf{\textbf{Question \thequestion }}} \hspace*{1pt} #1 %
+}}
+\newcommand{\exercise}[1]{%
+	\refstepcounter{exercise}
+	\noindent{\textsf{\textbf{Exercise \theexercise }} \hspace*{1pt} #1 %
+}}
+
+\newcommand{\cmt}{\noindent\hspace{-0.25em}\textcolor{Green}{\ding{226}} \hspace{0.2em}}
+\newcommand{\sol}{\noindent\hspace{-0.12em}\textcolor{cyan}{\ding{45}} \hspace{0.2em}}
+\newcommand{\solc}{\noindent\hspace{-0.12em}\textcolor{cyan}{\ding{45}} \hspace{0.2em} \vspace*{-\baselineskip}}
+
+% highlight environment
+\newenvironment{ilight}
+  {\centering
+  	\vspace*{6pt}
+  	\begin{tcolorbox}[colframe=Gray,colback=LightGrey!15]
+  \setlength{\baselineskip}{\baselineskip}%
+  }
+  {\end{tcolorbox}\vspace*{-4pt}}
+
+
+\newcommand{\keypoint}[1]{\textbf{\textcolor{red}{#1}}}
+
+
+% indentation and line spacing in itemize environment
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\everymath{\displaystyle}
+
+% indentation of paragraphs and table of contents
+\setlength{\parindent}{1.2em}
+%\setlength{\cftsecindent}{0em}
+%\setlength{\cftsubsecindent}{0.7em}
+%\setlength{\cftsubsubsecindent}{1.5em}
+
+% columns with customised width in tabulars
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{D}[1]{>{\centering\arraybackslash}m{#1}}
+
+\makeindex
+
+\begin{document}
+	
+\thispagestyle{empty}
+\include{chapters/cover}
+
+\newpage
+\thispagestyle{empty}
+\include{chapters/issues}
+
+\newpage
+
+\begin{ascolorbox14}{\huge 目\quad 录}
+\makeatletter
+  \@starttoc{toc}
+\makeatother
+\end{ascolorbox14}
+\thispagestyle{empty}
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+\pagestyle{plain}
+
+
+
+%\tableofcontents
+%%\listoffigures
+
+\clearpage
+\pagestyle{fancy}
+
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\section{Circular Motion}
+
+
+\subsection{Angular quantities}
+
+\begin{ascboxZ}{Angular quantities}
+movement or rotation of an object along a circular path is called \keypoint{circular motion}
+\end{ascboxZ}
+
+to describe a circular motion, we can use \emph{angular quantities}, which turn out to be more useful than linear displacement , linear velocity , etc.
+
+\subsubsection{angular displacement}
+
+\begin{ascboxA}{angular displacement}
+\keypoint{angular displacement}\index{angular displacement} is angle swiped out by object moving along circular
+\end{ascboxA}
+
+
+\begin{ascolorbox4}{知识点解读}
+
+\begin{wrapfigure}{r}{5cm}
+	\centering
+	\vspace*{-10pt}
+	\begin{tikzpicture}[scale=0.8]
+		\draw[dotted,thick] (0,0) circle(2);
+		\draw[->,thick,blue] (2,0) arc (0:70:2);
+		\draw (2,0) -- (0,0) node[midway,below]{$r$} -- (70:2);
+		\draw[->,thick] (0.4,0) arc (0:70:0.4);
+		\node at (35:0.6) {$\theta$};
+		\node at (35:2.2) {$s$};
+	\end{tikzpicture}
+\end{wrapfigure}
+
+
+\cmt unit: $[\theta]=\rad \quad$ (natural unit of measurement for angles)
+
+conversion rule: $2\pi \rad = 360^\circ$
+
+\cmt if two radii form an angle of $\theta$, then length of arc: $s=r\theta$
+
+two radii subtending an arc of same length as radius form an angle of one \keypoint{radian}\index{radian}
+
+\keypoint{angular displacement}\index{angular displacement} is angle swiped out by object moving along circular
+
+\end{ascolorbox4}
+
+\subsubsection{angular velocity}
+
+\begin{ascboxY}{知识概念}
+
+angular velocity describes how fast an object moves along a circular path
+
+\end{ascboxY}
+
+\begin{ascboxA}{重要概念}
+\keypoint{angular velocity}\index{angular velocity} is defined as angular displacement swiped out per unit time: $\boxed{\omega = \frac{\Delta \theta}{\Delta t}}$
+\end{ascboxA}
+
+\cmt unit of: $[\omega] = \radps$, also in radian measures
+
+\cmt angular velocity is a \emph{vector} quantity
+
+this vector points in a direction normal to the plane of circular motion
+
+but in A-level course, we treat angular velocity as if it is a scalar
+
+angular velocity and angular speed may be considered to be the same idea
+
+\begin{kousiki}{定理与公式推导}
+n interval $\Delta t$, distance moved along arc
+\[\Delta s=v\Delta t=r \Delta\theta \RA \omega = \frac{\Delta \theta}{\Delta t} = \frac{v}{r} \RA \boxed{v=\omega r}\]
+
+this relation between linear speed and angular speed holds at any instant
+\end{kousiki}
+
+The vector points in the direction perpendicular to the circular motion plane, but in the A-level course, we treat the angular velocity as a scalar
+, That is, when we consider angular velocity, we regard it and linear velocity as the same physical quantity to describe the most circular motion of an object.
+
+For the constant relationship between linear velocity and angular velocity, we can use linear velocity to describe the angular velocity, and conversely, we can use angular velocity to describe linear velocity.
+
+
+
+\subsubsection{Uniform circular motion}
+
+
+\begin{ascboxZ}{定义与概念}
+when studying linear motion, we started from motion with constant velocity $v$
+
+consider the simplest possible circular motion $\longrightarrow$ circular motion with constant $\omega$
+\end{ascboxZ}
+
+\begin{ascolorbox13}{思考与训练}
+\begin{wrapfigure}{r}{5cm}
+	\centering
+	\begin{tikzpicture}[scale=0.6]
+	\draw (0,0) circle [radius=3];
+	\foreach \s in {0,140,230}
+	{
+		\draw [purple, thick, ->] (\s:3) -- ++(\s+90:2.5) node[right]{$v$};
+		\draw [thick, dashed] (\s:3) -- (0,0);
+		\draw [thick] (\s:2.7) -- ++(\s+90:0.3) -- ++(\s:0.3);
+	}
+	\end{tikzpicture}
+\end{wrapfigure}
+
+
+analogy with linear motion with constant $v$
+
+uniform linear motion: $s=vt$
+
+displacement $s \leftrightarrow \theta$, velocity $v \leftrightarrow \omega$
+
+for uniform circular motion, one has: $\boxed{\theta=\omega t}$
+
+\cmt time taken for one complete revolution is called \keypoint{period} $T$
+
+in one $T$, angle swiped is $2\pi$, so $\boxed{\omega=\frac{2\pi}{T}}$
+
+\cmt uniform circular motion is still \emph{accelerated} motion
+
+speed is unchanged, but \emph{velocity} is changing
+
+direction of velocity always \emph{tangential} to its path, so direction of velocity keeps changing
+
+in general, any object moving along circular path is accelerating.
+
+
+\solc
+\begin{equation*}
+	\omega = \frac{2\pi}{T} = \frac{2\pi}{40} \approx 0.157 \radps \qquad v = \omega r = 0.157 \times 2.5 \approx 0.39 \mps \teoe
+\end{equation*}
+\end{ascolorbox13}
+
+\begin{reidai}
+What is the angular velocity of the minute hand of a clock?
+\end{reidai}
+
+\begin{reidai}
+A spacecraft moves around the earth in a circular orbit. The spacecraft has a speed of $7200 \mps$ at a height of 1300 km above the surface of the earth. Given that the radius of the earth is 6400 km. (a) What is the angular speed of this spacecraft? (b) What is its period?
+\end{reidai}
+
+\subsubsection{centripetal acceleration}
+
+\rcyskip
+
+\begin{ascolorbox9}{知识归纳与探究}
+\keypoint{centripetal acceleration} is the acceleration due to the change in direction of velocity vector, it points toward the centre of circular path
+
+consider motion along a circular path from $A$ to $B$ with constant speed $v$
+
+under small (infinitesimal) duration of time $\Delta t$\footnote{A more rigorous derivation can be given by using differentiation techniques}
+
+\end{ascolorbox9}
+
+
+
+change in velocity: $\Delta v = 2v\sin\frac{\Delta \theta}{2} \approx v \Delta \theta \quad$ (as $\Delta \theta \to 0$, $\sin \Delta \theta \approx \Delta \theta$)
+	
+	acceleration: $a = \frac{\Delta v}{\Delta t} \approx v \frac{\Delta \theta}{\Delta t} = v \omega \quad$ (as $\omega = \frac{\Delta \theta}{\Delta t}$)
+
+consider motion along a circular path from $A$ to $B$ with constant speed $v$
+
+\begin{ascolorbox12}{思考与解答}
+\begin{wrapfigure}{r}{11.5cm}
+	\centering
+		\begin{tikzpicture}[scale=1]
+		\draw [thick, dashed] (70:4) arc [radius=4, start angle=70, end angle=110];
+		\draw [thick] (80:1.5) arc [radius=1.5, start angle=80, end angle=100];
+		\foreach \s in {80,100}
+		{
+			\draw [purple, thick, ->] (\s:4) -- ++(\s-90:1.2) node[above]{$v$};
+			\draw [thick, dashed] (\s:4) -- (0,0);
+		}
+		\draw (80:4) node[above]{$B$};
+		\draw (100:4) node[above]{$A$};
+		\draw (0,1.5) node[above]{$\Delta \theta$};
+		\draw [thick,->] (2.5,2) --++ (2,0);
+		\draw [purple, thick, ->] (5.5,2) -- ++(10:1) node[above] {$v$} -- ++(10:1);
+		\draw [purple, thick, ->] (5.5,2) -- ++(-10:1) node[below] {$v$} -- ++(-10:1);
+		\draw [purple, thick, ->] (7.470,2.347) -- ++ (0,-0.347) node[right]{$\Delta v$} -- ++ (0,-0.347);
+		\draw (5.6,1.9) node[below]{$\Delta \theta$};
+		\draw (5.5,2) ++ (-10:0.5) arc(-10:10:0.5);
+		\end{tikzpicture}
+\end{wrapfigure}
+
+	recall relation $v = \omega r$, we find centripetal acceleration: $\boxed{a_c = \frac{v^2}{r} = \omega^2 r}$\index{centripetal acceleration}
+
+\cmt direction of centripetal acceleration: always towards centre of circular path
+	
+\cmt centripetal acceleration is only responsible for the change in \emph{direction} of velocity
+
+change in \emph{magnitude} of velocity will give rise to \emph{tangential acceleration}
+
+\end{ascolorbox12}
+
+this is related to \emph{angular acceleration}\footnote{Angular acceleration is analogous to linear acceleration $\alpha$, defined as rate of change of angular velocity: $\alpha = \frac{\dd \omega}{\dd t} = \frac{\dd^2 \theta}{\dd t^2}$ ($\star$). Similar to $v=\omega r = \ddt{s}$, the relation $a=\alpha r = \ddt{v}$ also holds.}  , which is beyond the syllabus
+
+\begin{ascolorbox19}{练习与思考}
+A racing car makes a $180^\circ$ turn in 2.0 s. Assume the path is a semi-circle with a radius of 30 m and the car maintains a constant speed during the turn. (a) What is the angular velocity of the car? (b) What is the centripetal acceleration?
+\end{ascolorbox19}
+
+\subsection{centripetal force}
+
+circular motion must involve change in velocity, so object is not in equilibrium
+
+there must be a \emph{net force} on an object performing circular motion
+
+\begin{ascolorbox2}{课前预习与思考}
+\keypoint{centripetal force}\index{centripetal force} ($F_c$) is the resultant force acting on an object
+
+\cmt moving along a circular path, and it is always directed towards centre of the circle
+
+\cmt centripetal force causes centripetal acceleration
+
+using Newton's 2$^\text{nd}$ law: $\boxed{ F_c = m\frac{v^2}{r} = m\omega^2r}$
+\end{ascolorbox2}
+
+ $F_c$ is not a new force by nature, it can have a variety of origins
+
+$F_c$ is a resultant of forces you learned before (weight, tension, contact force, friction, etc.)
+
+ $F_c$ acts at right angle to direction of velocity
+
+or equivalently, if $\fnet \perp v$ and $\fnet$ is of constant magnitude
+
+then this net force provides centripetal force for circular motion
+
+\begin{reidai}
+
+\begin{wrapfigure}{r}{5.6cm}
+\centering
+\vspace*{-80pt}
+\begin{tikzpicture}[scale=0.8]
+\shade [ball color = yellow] (0,0) circle (0.4);
+\node at (0,-0.7){star};
+\foreach \s in {0,30,60,...,330}
+  \draw [orange, thick] (\s:0.5) -- ++(\s:0.1);
+\draw [gray, thick, dashed] (0:2.5) arc [radius=2.5, start angle=0, end angle=360];
+\shade [ball color = Cyan] (45:2.5) node[above right]{planet} circle (0.15);
+\draw [purple, thick, ->] (45:2.5) -- ++(135:1.5) node[above]{$v$};
+\draw [thick, ->, blue] (45:2.5) -- ++(225:1.35) node[above left]{gravity};
+\end{tikzpicture}
+\end{wrapfigure}
+
+
+\cmt effect of $F_c$: change \emph{direction} of motion, or maintain circular orbits
+
+to change \emph{magnitude} of velocity, there requires a \emph{tangential} component for the net force
+
+again the idea of tangential force is beyond the syllabus
+
+planet orbiting around a star
+
+\tcblower
+
+gravity by the star provides centripetal force for the planet
+
+
+A rock is able to orbit around the earth near the earth's surface. Let's ignore air resistance for this question, so the rock is acted by weight only. Given that radius of the earth $R=6400$ km. 
+
+\end{reidai}
+
+(a) What is the orbital speed of the rock? (b) What is the orbital period?
+
+\sol weight of object provides centripetal force: $mg = \frac{mv^2}{R}$
+	
+orbital speed: $v = \sqrt{gR} = \sqrt{9.81\times6.4\times10^6} \approx 7.9\times10^3 \mps$
+
+period: $T = \frac{2\pi R}{v} = \frac{2\pi\times6.4\times10^6}{7.9\times10^3} \approx 5.1\times10^3 \text{ s} \approx 85 \text{ min}$ \eoe
+
+\begin{ascolorbox8}{解题思路分析：}
+A turntable can rotate freely about a vertical axis through its centre. A small object is placed on the turntable at distance $d=40$ cm from the centre. The turntable is then set to rotate, and the angular speed of rotation is slowly increased. The coefficient of friction between the object and the turntable is $\mu = 0.30$. If the object does not slide off the turntable, find the maximum number of revolutions per minute.
+
+\sol if object stays on turntable, friction provides the centripetal force required: $f = m\omega^2 d$
+
+increasing $\omega$ requires greater friction to provide centripetal force
+\end{ascolorbox8}
+
+but maximum limiting friction possible is: $f_\text{lim}  = \mu N = \mu mg$, therefore
+\begin{equation*}
+f \leq f_\text{lim} \RA m\omega^2d \leq \mu mg \RA \omega^2 \leq \frac{\mu g}{d} \RA \omega_\tmax = \sqrt{\frac{0.30\times9.81}{0.40}} \approx 2.71 \radps
+\end{equation*}
+
+period of revolution: $T_\tmin = \frac{2\pi}{\omega_\tmax} = \frac{2\pi}{2.71} \approx 2.32 \text{ s}$
+
+
+
+umber of revolutions in one minute: $n_\tmax = \frac{t}{T_\tmin} = \frac{60}{2.32} \approx 25.9 $
+
+
+
+\begin{ascolorbox10}{解答与反思}
+\begin{wrapfigure}{r}{5cm}
+	\centering
+\vspace{-1em}
+	\begin{tikzpicture}[scale=0.6]
+	\draw[dashed] (0,0) node[left]{$O$} circle(4);
+	\draw[fill] (0,-4) circle(0.08) node[below left]{$B$};
+	\draw[fill] (0,4) circle(0.08) node[above right]{$A$};
+	\draw[thick,<->,blue] (0,-1.5) node[right]{$T_B$} -- (0,-4) -- (0,-5.5) node[right]{$mg$};
+	\draw[thick,->,blue] (0.1,4) --++ (0,-1.5) node[right]{$mg$};
+	\draw[thick,->,blue] (-0.1,4) --++ (0,-1) node[left]{$T_A$};
+	\draw[fill] (0,0) -- (30:4) circle(0.08) node[above right]{$P$};
+	\draw[thick,->] (45:5.1) arc (45:15:5.1);
+	\node at (30:5.4){$\omega$};
+	\end{tikzpicture}
+\end{wrapfigure}
+
+Particle $P$ of mass $m=0.40$ kg is attached to one end of a light inextensible string of length $r=0.80$ m. The particle is whirled at a constant angular speed $\omega$ in a vertical plane. (a) Given that the string never becomes slack, find the minimum value of $\omega$. (b) Given instead that the string will break if the tension is greater than 20 N, find the maximum value of $\omega$.
+
+\sol at top of circle (point $A$): $\, F_c = T_A + mg = m\omega^2 r \RA T_A = m\omega^2 r - mg$
+
+at bottom of circle (point $B$): $\, F_c = T_B - mg = m\omega^2 r \RA T_B = m\omega^2 r + mg$
+
+
+tension is minimum at $A$, but string being taut requires $T\geq0$ at any point, so $T_A \geq 0$
+\begin{equation*}
+	m\omega^2 r - mg \geq 0 \RA \omega^2 \geq \frac{g}{r}
+\end{equation*}
+\begin{equation*}
+	\omega_\tmin = \sqrt{\frac{g}{r}} = \sqrt{\frac{9.81}{0.80}} \approx 3.5 \radps
+\end{equation*}
+\end{ascolorbox10}
+
+
+tension is maximum at $B$, but string does not break requires $T \leq T_\tmax$, so $T_B \leq T_\tmax$
+\begin{equation*}
+m\omega^2 r + mg \leq T_\tmax \RA \omega^2 \leq \frac{T_\tmax}{m} - \frac{g}{r}
+\end{equation*}
+\begin{equation*}
+	\omega_\tmax = \sqrt{\frac{T_\tmax}{m} - \frac{g}{r}} = \sqrt{\frac{20}{0.40} - \frac{9.81}{0.80}} \approx 6.1 \radps \teoe
+\end{equation*}
+
+
+
+%\example{A pendulum bob of mass $120$ g moves at constant speed and traces out a circle or radius $r=10$ cm in a horizontal plane. The string makes an angle $\theta=25^\circ$ to the vertical. (a) What is the tension in the string? (b) At what speed is the bob moving?}
+
+\begin{wrapfigure}{r}{5.6cm}
+\centering
+\vspace*{-90pt}
+\begin{tikzpicture}[scale=0.6]
+\draw [gray, dashed](0,0) ellipse (3 and 1.2);
+\draw [fill] (0:-3) node[above left]{ball} circle [radius=0.15];
+\draw [fill] (0:0) circle [radius=0.05];
+\draw [blue,thick, <->] (-3,-2) node[right]{$mg$} -- (-3,0) --++ (1, 2) node[left]{$T$};
+\draw [thick, ->, purple] (-3,0) -- (-2,0) node[right]{$F_\text{net}$};
+\draw (-2, 2) -- (0,6) (0,5.1) node[below left]{$\theta$} arc(-90:-116.57:0.9);
+\draw [gray, dashed] (0,-1.5) -- (0,6.5);
+\end{tikzpicture}
+\vspace*{5pt}
+\end{wrapfigure}
+
+\sol vertical component of tension $T_y$ equals weight
+
+{
+	
+	\centering
+
+$T_y = mg \RA T\cos\theta = mg$
+
+$T = \frac{mg}{\cos\theta} = \frac{0.12\times9.81}{\cos25^\circ} \approx 1.3 \text{ N}$
+
+}
+
+net force equals horizontal component of tension $T_x$
+
+so component $T_x$ provides centripetal force
+
+{
+	
+	\centering
+	
+	$F_c = T_x \RA T\sin\theta = \frac{mv^2}{r}$
+	
+}
+
+by eliminating $T$ and $m$, one can find
+\begin{equation*}
+	v^2 = \frac{r\tan\theta}{g} = \frac{0.10\times\tan25^\circ}{9.81} \RA v \approx 0.069 \mps \teoe
+\end{equation*}
+
+
+%\example{A small ball of mass $m$ is attached to an inextensible string of length $l$.  The ball is held with the string taut and horizontal and is then released from rest.}
+
+
+
+When the ball reaches lowest point, find its speed and the tension in the string in terms of $m$ and $l$.
+
+\begin{ascolorbox5}{思考与练习}
+\begin{wrapfigure}{r}{5cm}
+	\centering
+	\vspace*{-8pt}
+	\begin{tikzpicture}[scale=0.56]
+	\draw [thick, dashed] (0:4) arc [radius=4, start angle=0, end angle=-90];
+	\draw [fill] (0:4) node[above]{$m$} circle [radius=0.15];
+	\draw [fill] (-90:4) circle [radius=0.15];
+	\draw [thick] (0,0) -- (2,0) node[above]{$r$} --(4,0);
+	\draw [thick, dashed] (0,0) -- (0,-4);
+	\draw [blue,thick,<->] (0,-1.5) node[left]{$T$} -- (0,-5.5) node[left]{$mg$};
+	\draw [->] (-30:4.8) arc(-30:-60:4.8);
+	\end{tikzpicture}
+	\vspace*{45pt}
+\end{wrapfigure}
+
+\sol energy conservation: G.P.E. loss = K.E. gain
+\begin{equation*}
+	mgr = \frac{1}{2}mv^2 \quad \Rightarrow \quad v=\sqrt{2gr}
+\end{equation*}
+
+at lowest point: $\, F_c = T- mg = m \frac{v^2}{r}$
+\begin{equation*}
+	T = mg + m\frac{v^2}{r} = mg + m\frac{2gr}{r} = 3mg \teoe
+\end{equation*}
+
+\question{Suggest what provides centripetal force in the following cases. (a) An athlete running on a curved track. (b) An aeroplane banking at a constant altitude. (c) A satellite moving around the earth.}
+
+\end{ascolorbox5}
+
+
+
+\question{A turntable that can rotate freely in a horizontal plane is covered by dry mud. When the angular speed of rotation is gradually increased, state and explain whether the mud near edge of the plate or near the mud will first leave the plate?}
+
+\question{A bucket of water is swung at a constant speed and the motion describes a circle of radius $r=1.0 $m in the vertical plane. If the water does not pour down from the bucket even when it is at the highest position, how fast do you need to swing the bucket?}
+
+
+
+\begin{Question}{Question}{example}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+	\centering
+	\begin{tikzpicture}
+	\draw[thick] (-4,2) -- (-3,1) to [out=-45, in=180] (0,-1) arc[radius=1,start angle = -90, end angle = 245] (.3,-1) -- (2,-1);
+	\draw[dashed] (0,1) node[above]{$T$} -- (-3,1) node[above right]{$P$};
+	\draw (-3.2,1.2) -- ++(0.1,0.1) -- ++(0.4,-0.4) -- ++(-0.1,-0.1);
+	\end{tikzpicture}
+\end{wrapfigure}
+
+ This question is about the design of a roller-coaster. We consider a slider that starts from rest from a point $P$ and slides along a frictionless circular track as sketched below. $P$ is at the same height as the top of the track $T$. (a) Show that the slider cannot get to $T$. (b) As a designer for a roller-coaster, you have to make sure the slider can reach point $T$ and continue to slide along the track, what is the minimum height for the point of release?
+\end{Question}
+
+
+\question{A turntable that can rotate freely in a horizontal plane is covered by dry mud. When the angular speed of rotation is gradually increased, state and explain whether the mud near edge of the plate or near the mud will first leave the plate?}
+
+\question{A bucket of water is swung at a constant speed and the motion describes a circle of radius $r=1.0 $m in the vertical plane. If the water does not pour down from the bucket even when it is at the highest position, how fast do you need to swing the bucket?}
+
+\begin{ascolorbox11}{知识点衔接}
+\keypoint{Newton's law of gravitation}\index{Newton's law of gravitation} states that gravitational force between two \emph{point} masses is proportional to the product of their masses and inversely proportional to the square of their distance $\left(F_\text{grav} \propto \frac{Mm}{r^2}\right)$
+\end{ascolorbox11}
+
+
+this law was formulated in \emph{Issac Newton}'s work `The Principia', or `Mathematical Principles of Natural Philosophy', first published in 1687
+
+
+\include{chapters/19-gravitation}
+\include{chapters/20-oscillation}
+\include{chapters/21-ideal-gases}
+%\include{chapters/22-thermal-physics}
+%\include{chapters/23-coulomb-law}
+%\include{chapters/24-capacitance}
+%\include{chapters/25-magnetic-fields}
+
+
+
+\newtcolorbox{boxmine}[2][]{colbacktitle=red!10!white,
+colback=blue!10!white,coltitle=red!70!black,
+title={#2},fonttitle=\bfseries\rmfamily,#1}
+
+
+\begin{boxmine}{ここにTitleを書くのだ}
+吾輩は猫である。名前はまだない。\\
+どこで生れたか頓（とん）と見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪（どうあく）な種族であったそうだ。
+\end{boxmine}
+
+
+
+\begin{boxmine}[fontupper=\rmfamily\Large,
+before upper=【大きくしてみた。】]{さらにオプションを加えるのだ}
+吾輩は猫である。名前はまだない。\\
+どこで生れたか頓（とん）と見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪（どうあく）な種族であったそうだ。
+\end{boxmine}
+
+
+\begin{practicebox}{中間値の定理}
+地球の赤道上にある点Pを置き，その対蹠地をQとする。ここでQは赤道上にあると仮定する。このとき点Pでの気温と点Qの気温が同じになるように，点Pを上手にとることができる。その理由を説明しなさい。
+\end{practicebox}
+
+
+\begin{ascolorbox1}{回顾上节内容}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox1}
+
+
+
+\begin{ascolorbox2}{课前知识点预习}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox2}
+
+
+\begin{ascolorbox3}{知识课后总结：}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox3}
+
+
+\begin{ascolorbox4}{知识巩固归纳}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox4}
+
+
+\begin{ascolorbox5}{知识探索}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox5}
+
+
+\begin{ascolorbox8}{解题思路分析：}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox8}
+
+
+\begin{ascolorbox9}{思考与探究}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox9}
+
+
+\begin{ascolorbox10}{解答与反思}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox10}
+
+
+
+\begin{ascolorbox11}{知识点衔接}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox11}
+
+
+\begin{ascolorbox12}{知识点梳理}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox12}
+
+
+\begin{ascolorbox13}{讨论与探究}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox13}
+
+
+\begin{ascolorbox14}{内容概要}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox14}
+
+
+\begin{ascolorbox15}{章节目录}{私は場}{fwefwag}
+
+合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+
+\end{ascolorbox15}
+
+\begin{ascolorbox16}{错题纠正}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox16}
+
+\begin{ascolorbox17}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox17}
+
+\begin{ascolorbox18}{每日一句}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox18}
+
+\begin{ascolorbox19}{巩固与反思}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascolorbox19}
+
+\begin{ascboxA}{笔记1}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxA}
+
+
+\begin{ascboxB}{笔记2}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxB}
+
+\begin{ascboxC}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxC}
+
+\begin{ascboxD}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxD}
+
+\begin{ascboxE}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxE}
+
+\begin{ascboxF}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxF}
+
+\begin{ascboxG}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxG}
+
+\begin{ascboxH}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxH}
+
+\begin{ascboxI}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxI}
+
+
+\begin{ascboxJ}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxJ}
+
+\begin{ascboxK}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxK}
+
+
+\begin{ascboxL}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxL}
+
+
+\begin{ascboxY}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxY}
+
+
+\begin{ascboxZ}{コラム}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{ascboxZ}
+
+
+\setcounter{reidaibangou}{1}
+\begin{reidai}
+異なる2つの実数解であるとき
+\end{reidai}
+
+
+\begin{reidai}
+次の問題に答えなさい。
+\begin{enumerate}
+    \item 8人を2つの組に分ける方法は何通りあるか。
+    \item 6人を3つの部屋A，B，Cに入れる方法は何通りあるか。ただし各部屋に少なくとも1人は入るものとする。
+\end{enumerate}
+
+\tcblower
+
+区別があるかどうかを正しく考えます。
+\begin{enumerate}
+    \item なんだかんだで127通り
+    \item なんだかんだで540通り
+\end{enumerate}
+
+\end{reidai}
+
+
+
+
+\begin{kousiki}{中間値の定理}
+区間$[\alpha,\beta]$で連続な関数$f(x)$について，
+$f(\alpha)$と$f(\beta)$の間にある任意の実数$c$に対して，
+ある実数$k\in (\alpha,\beta)$を\[
+f(k)=c
+\]
+を満たすようにとることが出来る。
+\end{kousiki}
+
+
+\begin{mytheo}{中間値の定理}{chukan}
+区間$[\alpha,\beta]$で連続な関数$f(x)$について，
+$f(\alpha)$と$f(\beta)$の間にある任意の実数$c$に対して，
+ある実数$k\in (\alpha,\beta)$を，$f(k)=c$を
+満たすようにとることが出来る。
+\end{mytheo}
+
+
+
+\begin{myprop}{方程式の実数解の存在}{}
+区間$[\alpha,\beta]$で連続な関数$f(x)$について，
+$f(\alpha)f(\beta)<0$ならば，方程式$f(x)=0$は$\alpha<x<\beta$の範囲に少なくとも1つの実数解をもつ。
+\end{myprop}
+
+
+
+\begin{marker}
+私は場合もっともこの反駁学というのの時へ閉じたませ。\\
+どうしても今に反抗人はまあそうした研究でなくだけのしからみるたには矛盾さならだて、当然にもしないたたです。腹の中に行きた事も初めて十月にともかくうますない。
+\end{marker}
+
+
+%\include{chapters/18-circular-motion}
+%\include{chapters/19-gravitation}
+%\include{chapters/20-oscillation}
+%\include{21-ideal-gases}
+%\include{22-thermal-physics}
+%\include{23-coulomb-law}
+%\include{24-capacitance}
+%\include{25-magnetic-fields}
+%\include{27-electromagnetic-induction}
+%\include{28-alternating-currents}
+%\include{29-quantum-physics}
+%\include{30-nuclear-physics}
+%\include{31-electronics}
+%\include{32-medical-imaging}
+%\include{33-telecommunication}
+\newpage
+
+%\phantomsection
+%\cleardoublepage
+%\addcontentsline{toc}{section}{\indexname}
+\printindex
+
+\end{document}
